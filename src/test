@@ -1,0 +1,181 @@
+import React, { useState } from "react";
+import "./App.css";
+
+const EligiForm = () => {
+  const [age, setAge] = useState("");
+  const [maritalStatus, setMaritalStatus] = useState("");
+  const [monthlySalary, setMonthlySalary] = useState("");
+  const [cityOfWork, setCityOfWork] = useState("");
+  const [cityOfResidence, setCityOfResidence] = useState("");
+  const [jobDesignation, setJobDesignation] = useState("");
+  const [nationalityID, setNationalityID] = useState("");
+  const [country, setCountry] = useState("");
+  const [loanDuration, setLoanDuration] = useState("");
+  const [eligibleBanks, setEligibleBanks] = useState([]);
+
+  const checkEligibility = () => {
+    const isEligible =
+      age >= 18 && monthlySalary >= 3000 && nationalityID === "citizen";
+    return isEligible;
+  };
+
+  const getRecommendedBanks = () => {
+    if (checkEligibility()) {
+      const banks = [];
+
+      if (monthlySalary >= 60000 && jobDesignation === "Manager") {
+        banks.push("Riyad Bank");
+      }
+      if (monthlySalary >= 5000 && country === "Saudi Arabia") {
+        banks.push("Al Rajhi");
+      }
+      if (maritalStatus === "Married") {
+        banks.push("Bank Alinma");
+      }
+      if (nationalityID === "citizen") {
+        banks.push("Arab National Bank");
+      }
+
+      setEligibleBanks(banks);
+    } else {
+      setEligibleBanks([]);
+    }
+  };
+
+  return (
+    <div className="bg-gray-100 min-h-screen flex items-center justify-center">
+      <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+        <h1 className="text-2xl font-bold mb-4">Loan Eligibility Checker</h1>
+        <label className="block mb-2">
+          Age:
+          <input
+            type="number"
+            value={age}
+            onChange={(e) => setAge(e.target.value)}
+            className="block w-full border rounded-md px-2 py-1 mt-1"
+          />
+        </label>
+        <label className="block mb-2 space-y-4">
+          Marital Status:
+          <select
+            value={maritalStatus}
+            onChange={(e) => setMaritalStatus(e.target.value)}
+            className="block w-full border rounded-md px-2 py-1 mt-1"
+          >
+            <option value="">Select</option>
+            <option value="Single">Single</option>
+            <option value="Married">Married</option>
+          </select>
+        </label>
+        <label className="block mb-2 space-y-4">
+          LoanDuration:
+          <select
+            value={loanDuration}
+            onChange={(e) => setLoanDuration(e.target.value)}
+            className="block w-full border rounded-md px-2 py-1 mt-1"
+          >
+            <option value="">Select</option>
+            <option value="Single">Single</option>
+            <option value="Married">Married</option>
+          </select>
+        </label>
+        <label className="block mb-2 space-y-4">
+          MonthlySalary:
+          <select
+            value={monthlySalary}
+            onChange={(e) => setMonthlySalary(e.target.value)}
+            className="block w-full border rounded-md px-2 py-1 mt-1"
+          >
+            <option value="">Select</option>
+            <option value="3000">3000</option>
+            <option value="5000">5000</option>
+            <option value="60000">60000</option>
+          </select>
+        </label>
+
+        <label className="block mb-2 space-y-4">
+          CityOfWork:
+          <select
+            value={cityOfWork}
+            onChange={(e) => setCityOfWork(e.target.value)}
+            className="block w-full border rounded-md px-2 py-1 mt-1"
+          >
+            <option value="">Select</option>
+            <option value="3000">3000</option>
+            <option value="5000">5000</option>
+            <option value="60000">60000</option>
+          </select>
+        </label>
+        <label className="block mb-2 space-y-4">
+          CityOfResidence:
+          <select
+            value={cityOfResidence}
+            onChange={(e) => setCityOfResidence(e.target.value)}
+            className="block w-full border rounded-md px-2 py-1 mt-1"
+          >
+            <option value="">Select</option>
+            <option value="3000">3000</option>
+            <option value="5000">5000</option>
+            <option value="60000">60000</option>
+          </select>
+        </label>
+        <label className="block mb-2 space-y-4">
+          JobDesignation:
+          <select
+            value={jobDesignation}
+            onChange={(e) => setJobDesignation(e.target.value)}
+            className="block w-full border rounded-md px-2 py-1 mt-1"
+          >
+            <option value="">Select</option>
+            <option value="3000">CEO</option>
+            <option value="5000">Manger</option>
+            <option value="60000">Sales</option>
+          </select>
+        </label>
+        <label className="block mb-2 space-y-4">
+          NationalityID:
+          <input
+            type="Text"
+            value={nationalityID}
+            onChange={(e) => setNationalityID(e.target.value)}
+            className="block w-full border rounded-md px-2 py-1 mt-1"
+          />
+        </label>
+        <label className="block mb-2 space-y-4">
+          Country:
+          <select
+            value={country}
+            onChange={(e) => setCountry(e.target.value)}
+            className="block w-full border rounded-md px-2 py-1 mt-1"
+          >
+            <option value="">Select</option>
+            <option value="3000">KSA</option>
+            <option value="5000">UAE</option>
+            <option value="60000">Kuwait</option>
+          </select>
+        </label>
+        {/* Add similar input fields for other parameters */}
+        <button
+          onClick={getRecommendedBanks}
+          className="bg-blue-500 text-white px-4 py-2 rounded mt-4 hover:bg-blue-600"
+        >
+          Check Eligibility
+        </button>
+        {eligibleBanks.length > 0 && (
+          <div className="mt-4">
+            <h2 className="text-lg font-semibold">Recommended Banks:</h2>
+            <ul className="list-disc list-inside">
+              {eligibleBanks.map((bank, index) => (
+                <li key={index} className="mt-2">
+                  {bank}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default EligiForm;
